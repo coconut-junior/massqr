@@ -4,12 +4,26 @@
 #include <string>
 #include "qrcodegen.hpp"
 #include "generator.h"
+#include "base64.h"
 
 bool verbose = false;
 
 int main() {
 
-	std::vector<BYTE> fileData = readFile("sunset.txt");
+	/*encode as base64 string*/
+	std::vector<BYTE> myData = readFile("sunset.png");
+	/*this is the base64*/std::string encodedData = base64_encode(&myData[0], myData.size());
+	std::cout<<encodedData<<std::endl;
+	
+	/*decode base64 string*/
+	std::vector<BYTE> decodedData = base64_decode(encodedData);
+	writeFile(decodedData,"decoded.png");
+
+	
+	std::vector<BYTE> fileData;
+	const char* str = encodedData.c_str();
+	fileData.assign( str, str+strlen(str) );
+
 
 	int b = fileData.size();
 	if (verbose) {
@@ -41,12 +55,13 @@ int main() {
 			std::vector<unsigned char> v = content;
 			char *res;
 			res = new char[v.size() + 1]; // +1 for the final 0
-			res[v.size() + 1] = 0; // terminate the string
+			res[v.size()] = 0; // terminate the string
 			for (size_t i = 0; i < v.size(); ++i) {
 			  res[i] = v[i];
 			}
 			std::copy(v.begin(), v.end(), res);
 			
+			std::cout<<res<<std::endl;
 			std::string svg = toQR(res);
 			
 			/*string to unsigned byte vector*/

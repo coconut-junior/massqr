@@ -1,0 +1,1 @@
+g++ main.cpp binary.cpp generator.cpp qrcodegen.cpp base64.cpp
