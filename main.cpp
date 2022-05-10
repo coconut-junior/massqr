@@ -19,18 +19,20 @@ int main() {
 	}
 	std::cout<<fileData.size()<<std::endl;
 	
-	int code_count = b / 1000;
+	int code_count = (b / 1000)+1;
 	std::cout<<code_count;
 	std::cout<< " codes needed"<<std::endl;
 	
-	int codes[code_count];
+	int codes;
 	int current = 0;
 	int code = 0;
+	int size = 1000;
 	std::vector<BYTE> content = {};
-	for (int i = 0;i < b;++i) {
+	for (int i = 0;i <= b;++i) {
 		++current;
 		content.push_back(fileData[i]);
-		if (current > 1000) {
+		
+		if (current > size -1 or i == b-1) {
 			current = 0;
 			/*split the text every 1000 chars and save out*/
 			std::string s = "codes/" + std::to_string(code)+".svg";
@@ -52,12 +54,13 @@ int main() {
 			const char* str = svg.c_str();
 			myVector.assign( str, str+strlen(str) );
 
-			writeFile(myVector,s.c_str());
+			writeFile(myVector,s.c_str());			
 			
-			std::cout<<code;std::cout<<" of ";std::cout<<code_count<<std::endl;
-			content = {};
+			std::cout<<code+1;std::cout<<" of ";std::cout<<code_count<<std::endl;
+			content.clear();
 			++code;
 		}
+
 	}
 	
 	writeFile(fileData,"new.txt");

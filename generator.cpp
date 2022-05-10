@@ -10,7 +10,7 @@
 #include "generator.h"
 
 std::string toQR(const char * text) {
-	const QrCode::Ecc errCorLvl = QrCode::Ecc::LOW;  // Error correction level
+	const QrCode::Ecc errCorLvl = QrCode::Ecc::HIGH;  // Error correction level
 	const QrCode qr = QrCode::encodeText(text, errCorLvl);
 	return toSvgString(qr, 4);
 }
